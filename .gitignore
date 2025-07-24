@@ -1,0 +1,40 @@
+# ⛔ Python
+__pycache__/
+*.pyc
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# ⛔ Виртуальное окружение
+venv/
+env/
+.venv/
+.env/
+
+# ⛔ Конфигурационные и чувствительные файлы
+*.env
+.envrc
+secrets.json
+config.yaml
+*.sqlite3
+
+# ⛔ Django-specific
+*.log
+db.sqlite3
+media/
+staticfiles/
+
+# ⛔ IDE и редакторы
+.vscode/
+.idea/
+*.swp
+*~
+
+# ⛔ OS-системные файлы
+.DS_Store
+Thumbs.db
+
+# ⛔ Migrations cache (не обязательно, но иногда удобно)
+**/migrations/__pycache__/
+**/__pycache__/
