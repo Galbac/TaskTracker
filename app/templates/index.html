@@ -1,14 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>{{ title }}</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ title }}</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --primary: #4c7bf3;
+      --primary-hover: #3a5ecc;
+      --border: #e2e8f0;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f172a;
+        --card-bg: #1e293b;
+        --text: #e2e8f0;
+        --text-muted: #94a3b8;
+        --primary: #5a87f0;
+        --primary-hover: #7a9eff;
+        --border: #334155;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .container {
+      max-width: 480px;
+      width: 100%;
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+
+    .content {
+      padding: 32px;
+    }
+
+    .links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .links a {
+      display: block;
+      padding: 14px 20px;
+      background: var(--bg);
+      color: var(--text);
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 500;
+      text-align: center;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+
+    .links a:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .links a:active {
+      transform: translateY(0);
+    }
+  </style>
 </head>
 <body>
-<h1>Добро пожаловать в Task Tracker</h1>
-<ul>
-    <li><a href="/register">Register</a></li>
-    <li><a href="/login">Login</a></li>
-</ul>
+  <div class="container">
+    <header>
+      <h1>Добро пожаловать в Task Tracker</h1>
+    </header>
+    <div class="content">
+      <ul class="links">
+        <li><a href="/register">Регистрация</a></li>
+        <li><a href="/login">Вход</a></li>
+      </ul>
+    </div>
+  </div>
 </body>
 </html>

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Form, HTTPException, Request, status
+from fastapi import APIRouter, Depends, Form, Request
 from fastapi.responses import RedirectResponse
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -19,15 +19,18 @@ async def register_form(request: Request):
 
 
 @auth_router.post('/register')
-async def register(user_reg: UserSchema = Form(), db: AsyncSession = Depends(get_db)):
+async def register(request: Request, user_reg: UserSchema = Form(), db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(User).where(User.email == user_reg.email))
-    user = result.scalar_one_or_none()
+    user = result.scalar()
     if user:
-        return RedirectResponse("/register?error=exists", status_code=303)
+        request.app.templates.TemplateResponse('register.html',
+                                   {'request': request, 'error': 'Пользователь с таким email уже существует',
+                                    })
     user_dict = User(email=user_reg.email, hashed_password=get_password_hash(user_reg.password))
     db.add(user_dict)
     await db.commit()
     return RedirectResponse('/login', status_code=303)
+
 
 @auth_router.get('/login')
 async def login_form(request: Request):
@@ -35,13 +38,14 @@ async def login_form(request: Request):
         request=request, name="login.html", context={"request": request}
     )
 
+
 @auth_router.post('/login')
 async def login(user_login: UserSchema = Form(), db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(User).where(User.email == user_login.email))
     user = result.scalar_one_or_none()
     if not user or not verify_password(user_login.password, user.hashed_password):
         return RedirectResponse("/login?error=invalid", status_code=303)
-    access_token = create_access_token({"sub": str(user.id)} )
+    access_token = create_access_token({"sub": str(user.id)})
     response = RedirectResponse('/', status_code=303)
-    response.set_cookie(key='access_token', value=access_token,httponly=True)
+    response.set_cookie(key='access_token', value=access_token, httponly=True)
     return response
