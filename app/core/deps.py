@@ -23,12 +23,12 @@ async def get_current_user(request: Request, db: AsyncSession):
         raise HTTPException(status_code=401, detail="Not authenticated")
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        user_id = int(payload.get('sub'))
+        user_id = int(payload.get("sub"))
 
     except JWTError:
         return None
 
-    result = await  db.execute(select(User).where(User.id == user_id))
+    result = await db.execute(select(User).where(User.id == user_id))
     return result.scalar()
 
 

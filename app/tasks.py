@@ -27,16 +27,18 @@ async def _check_deadlines_async():
 
         result = await session.execute(
             select(Task).where(
-                Task.deadline != None,
-                Task.is_completed == False,
+                Task.deadline is not None,
+                not Task.is_completed,
                 Task.deadline <= upcoming,
-                Task.deadline > now)
+                Task.deadline > now,
+            )
         )
 
         tasks = result.scalars().all()
         for task in tasks:
-            print(f"[🔔] Напоминание: '{task.title}' у пользователя {task.user_id}, дедлайн — {task.deadline}")
+            """
+            Print(
 
-
-
-
+            f"[🔔] Напоминание: '{task.title}' у пользователя {task.user_id}, дедлайн —
+            {task.deadline}" )
+            """
